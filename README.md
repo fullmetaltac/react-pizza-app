@@ -7,6 +7,7 @@ npm create vite@4
 npm i
 # install additional dependencies
 npm i eslint vite-plugin-eslint eslint-config-react-app --save-dev
+npm i react-router-dom@6 --save-dev
 ```
 
 ```shell
