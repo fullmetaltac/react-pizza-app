@@ -23,3 +23,4 @@ npm run dev
 
 - https://tailwindcss.com/docs/guides/vite
 - https://github.com/tailwindlabs/prettier-plugin-tailwindcss
+- https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje
