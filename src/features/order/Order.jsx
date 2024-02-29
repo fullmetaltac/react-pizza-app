@@ -1,9 +1,9 @@
 // Test ID: IIDSAT
 
-import {calcMinutesLeft, formatCurrency, formatDate,} from "../../utils/helpers";
-import {getOrder} from "../../services/apiRestaurant.js";
-import {useLoaderData} from "react-router-dom";
 import OrderItem from "./OrderItem.jsx";
+import {useLoaderData} from "react-router-dom";
+import {getOrder} from "../../services/apiRestaurant.js";
+import {calcMinutesLeft, formatCurrency, formatDate,} from "../../utils/helpers";
 
 function Order() {
     const order = useLoaderData();
@@ -50,7 +50,7 @@ function Order() {
             </div>
 
             <ul className="divide-y divide-stone-200 border-b border-t">
-                {cart.map((item) => <OrderItem item={item} key={item.id}/>)}
+                {cart.map((item) => <OrderItem item={item} key={item.pizzaId}/>)}
             </ul>
 
             <div className="space-y-2 bg-stone-200 py-5 px-6">
