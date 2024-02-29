@@ -9,9 +9,11 @@ npm i
 npm i eslint vite-plugin-eslint eslint-config-react-app --save-dev
 npm i react-router-dom@6 --save-dev
 # install tailwind
-npm install -D tailwindcss@3 postcss autoprefixer --save-dev
+npm i -D tailwindcss@3 postcss autoprefixer --save-dev
 npx tailwindcss init -p
-npm install -D prettier prettier-plugin-tailwindcss
+npm i -D prettier prettier-plugin-tailwindcss
+# install redux
+npm i @reduxjs/toolkit react-redux --save-dev
 ```
 
 ```shell
@@ -23,4 +25,3 @@ npm run dev
 
 - https://tailwindcss.com/docs/guides/vite
 - https://github.com/tailwindlabs/prettier-plugin-tailwindcss
-- https://dev.to/afif/i-made-100-css-loaders-for-your-next-project-4eje
