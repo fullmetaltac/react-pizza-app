@@ -1,7 +1,7 @@
-import CartOverview from "../features/cart/CartOverview";
 import Header from "./Header.jsx";
 import Loader from "./Loader.jsx";
 import {Outlet, useNavigation} from "react-router-dom";
+import CartOverview from "../features/cart/CartOverview";
 
 
 function AppLayout() {

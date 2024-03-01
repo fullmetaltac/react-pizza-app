@@ -7,9 +7,9 @@ import {clearCart, getCart} from "./cartSlice.js";
 import {useDispatch, useSelector} from "react-redux";
 
 function Cart() {
+    const dispatch = useDispatch();
     const cart = useSelector(getCart);
     const username = useSelector(getUser);
-    const dispatch = useDispatch();
 
     if (!cart.length) return <EmptyCart/>
 

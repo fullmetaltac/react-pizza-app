@@ -1,9 +1,10 @@
 import {useState} from "react";
 import store from "../../store.js";
-import {useSelector} from "react-redux";
 import Button from "../../ui/Button.jsx";
-import {formatCurrency} from "../../utils/helpers.js";
 import EmptyCart from "../cart/EmptyCart.jsx";
+import {fetchAddress} from "../user/userSlice.js";
+import {useDispatch, useSelector} from "react-redux";
+import {formatCurrency} from "../../utils/helpers.js";
 import {createOrder} from "../../services/apiRestaurant.js";
 import {clearCart, getCart, getTotalCartPrice} from "../cart/cartSlice.js";
 import {Form, redirect, useActionData, useNavigation} from "react-router-dom";
@@ -13,16 +14,26 @@ const isValidPhone = (str) =>
 
 
 function CreateOrder() {
+    const dispatch = useDispatch();
     const cart = useSelector(getCart);
     const formErrors = useActionData();
     const navigation = useNavigation();
     const totalCartPrice = useSelector(getTotalCartPrice);
     const isSubmitting = navigation.state === "submitting";
-    const username = useSelector(state => state.user.username);
 
     const [withPriority, setWithPriority] = useState(false);
     const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
     const totalPrice = totalCartPrice + priorityPrice;
+
+    const {
+        username,
+        status: addressStatus,
+        position,
+        address,
+        error: errorAddress,
+    } = useSelector(state => state.user);
+
+    const isLoadingAddress = addressStatus === "loading";
 
 
     if (!cart.length) return <EmptyCart/>
@@ -47,12 +58,40 @@ function CreateOrder() {
                         }
                     </div>
                 </div>
-                <div className="mb-5 flex gap-2 flex-col sm:flex-row sm:items-center">
+
+                <div className="mb-5 flex gap-2 flex-col sm:flex-row sm:items-center relative">
                     <label className="sm:basis-40">Address</label>
                     <div className="grow">
-                        <input className="input w-full" type="text" name="address" required/>
+                        <input
+                            className="input w-full"
+                            type="text"
+                            name="address"
+                            disabled={isLoadingAddress}
+                            defaultValue={address}
+                            required
+                        />
+                        {
+                            addressStatus === "error" &&
+                            <p className="text-xs mt-2 text-red-700 bg-red-100 p-2 rounded-md">
+                                {errorAddress}
+                            </p>
+                        }
                     </div>
+
+                    {!position.latitude && !position.longitude && (
+                        <span className="absolute z-50 right-[3px] top-[3px] md:right-[5px] md:top-[5px]">
+                        <Button type="small"
+                                isabled={isLoadingAddress}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    dispatch(fetchAddress());
+                                }}>
+                            Get position
+                        </Button>
+                    </span>
+                    )}
                 </div>
+
                 <div className="mb-12 flex gap-5 items-center">
                     <input
                         className="h-6 w-6 accent-yellow-400 focus:outline-none
@@ -67,9 +106,17 @@ function CreateOrder() {
                         Want to yo give your order priority?
                     </label>
                 </div>
+
                 <div>
                     <input type="hidden" name="cart" value={JSON.stringify(cart)}/>
-                    <Button type="primary" disabled={isSubmitting}>
+                    <input
+                        type="hidden"
+                        name="position"
+                        value={position.longitude && position.latitude ?
+                            `${position.latitude},${position.longitude}` : ""
+                        }
+                    />
+                    <Button type="primary" disabled={isSubmitting || isLoadingAddress}>
                         {
                             isSubmitting ?
                                 "Placing order.." :

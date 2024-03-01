@@ -1,5 +1,5 @@
-import {useRouteError} from 'react-router-dom';
 import LinkButton from "./LinkButton.jsx";
+import {useRouteError} from 'react-router-dom';
 
 function NotFound() {
     const error = useRouteError();

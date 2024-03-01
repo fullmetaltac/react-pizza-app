@@ -5,9 +5,9 @@ import {updateName} from "./userSlice.js";
 import {useNavigate} from "react-router-dom";
 
 function CreateUser() {
-    const [username, setUsername] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [username, setUsername] = useState('');
 
     function handleSubmit(e) {
         e.preventDefault();
